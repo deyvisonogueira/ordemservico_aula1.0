@@ -28,19 +28,19 @@ require_once ("bd/bd_ordem.php");
                                 if ($_SESSION['perfil'] == 1) {
                                     $status = 1;
                                     $total = consultaStatusUsuario($status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_aberta.php"' . $total['total'] . '" style="color: #e74a3b;">' . $total['total'] . '</a>';
                                 }
                                 if ($_SESSION['perfil'] == 2) {
                                     $cod_usuario = $_SESSION['cod_usu'];
                                     $status = 1;
                                     $total = consultaStatusCliente($cod_usuario,$status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_aberta.php"' . $total['total'] . '" style="color: #e74a3b;">' . $total['total'] . '</a>';
                                 }
                                 if ($_SESSION['perfil'] == 3) {
                                     $cod_usuario = $_SESSION['cod_usu'];
                                     $status = 1;
                                     $total = consultaStatusTerceirizado($cod_usuario,$status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_aberta.php"' . $total['total'] . '" style="color: #e74a3b;">' . $total['total'] . '</a>';
                                 }
                             ?>
 
@@ -60,25 +60,25 @@ require_once ("bd/bd_ordem.php");
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-                            Ordens de Serviço em Execussão</div>
+                            Ordens de Serviço em Execução</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                               <?php
                                 if ($_SESSION['perfil'] == 1) {
                                     $status = 2;
                                     $total = consultaStatusUsuario($status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_execucao.php"' . $total['total'] . '" style="color: #f6c23e;">' . $total['total'] . '</a>';
                                 }
                                 if ($_SESSION['perfil'] == 2) {
                                     $cod_usuario = $_SESSION['cod_usu'];
                                     $status = 2;
                                     $total = consultaStatusCliente($cod_usuario,$status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_execucao.php"' . $total['total'] . '" style="color: #f6c23e;">' . $total['total'] . '</a>';
                                 }
                                 if ($_SESSION['perfil'] == 3) {
                                     $cod_usuario = $_SESSION['cod_usu'];
                                     $status = 2;
                                     $total = consultaStatusTerceirizado($cod_usuario,$status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_execucao.php"' . $total['total'] . '" style="color: #f6c23e;">' . $total['total'] . '</a>';
                                 }
                             ?>  
                             </div>
@@ -103,19 +103,19 @@ require_once ("bd/bd_ordem.php");
                                 if ($_SESSION['perfil'] == 1) {
                                     $status = 3;
                                     $total = consultaStatusUsuario($status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_concluida.php"' . $total['total'] . '" style="color:#36b9cc;">' . $total['total'] . '</a>';
                                 }
                                 if ($_SESSION['perfil'] == 2) {
                                     $cod_usuario = $_SESSION['cod_usu'];
                                     $status = 3;
                                     $total = consultaStatusCliente($cod_usuario,$status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_concluida.php"' . $total['total'] . '" style="color: #36b9cc;">' . $total['total'] . '</a>';
                                 }
                                 if ($_SESSION['perfil'] == 3) {
                                     $cod_usuario = $_SESSION['cod_usu'];
                                     $status = 3;
                                     $total = consultaStatusTerceirizado($cod_usuario,$status);
-                                    echo ($total['total']);
+                                    echo '<a href="ordem_concluida.php"' . $total['total'] . '" style="color:#36b9cc;">' . $total['total'] . '</a>';
                                 }
                             ?>  
                             </div>

@@ -1,10 +1,9 @@
-
 <?php
 require_once('valida_session.php');
-require_once('header.php'); 
-require_once('sidebar.php'); 
-require_once ("bd/bd_ordem.php");
-require_once ("bd/bd_terceirizado.php");
+require_once('header.php');
+require_once('sidebar.php');
+require_once("bd/bd_ordem.php");
+require_once("bd/bd_terceirizado.php");
 
 $codigo = $_GET['cod'];
 $dados = buscaOrdemeditar($codigo);
@@ -24,7 +23,7 @@ $terceirizados = listaTerceirizados();
 <!-- Main Content -->
 <div id="content">
 
-    <?php require_once('navbar.php');?>
+    <?php require_once('navbar.php'); ?>
 
     <!-- Begin Page Content -->
     <div class="container-fluid">
@@ -39,7 +38,7 @@ $terceirizados = listaTerceirizados();
             </div>
             <div class="card-body">
                 <form class="user" action="editar_ordem_envia.php" method="post">
-                    <input type="hidden" name="cod" value="<?=$cod?>">
+                    <input type="hidden" name="cod" value="<?= $cod ?>">
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <label> Nome do Cliente </label>
@@ -54,12 +53,19 @@ $terceirizados = listaTerceirizados();
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">
                             <label> Terceirizado </label>
-                            <select class="form-control" id="cod_terceirizado" name="cod_terceirizado" required>
-                                <option value="<?=$cod_terceirizado?>"><?=$nome_terceirizado?></option> 
-                                <?php foreach($terceirizados as $dados):?>
-                                <option value="<?=$dados['cod']?>"><?=$dados['nome']?></option> 
-                                <?php endforeach ?>
-                                </select>
+                            <?php
+                            if ($_SESSION['perfil'] == 1) {
+                                echo '<select class="form-control" id="cod_terceirizado" name="cod_terceirizado" required>';
+                            } else {
+                                echo '<select class="form-control" id="cod_terceirizado" name="cod_terceirizado" readonly>';
+                            }
+
+                            ?>
+                            <option value="<?= $cod_terceirizado ?>"><?= $nome_terceirizado ?></option>
+                            <?php foreach ($terceirizados as $dados) : ?>
+                                <option value="<?= $dados['cod'] ?>"><?= $dados['nome'] ?></option>
+                            <?php endforeach ?>
+                            </select>
                         </div>
                         <div class="col-sm-6">
                             <label> Data do Serviço </label>
@@ -68,22 +74,28 @@ $terceirizados = listaTerceirizados();
                     </div>
 
                     <div class="form-group row">
-                             <div class="col-sm-6">
-                                <label> Situação </label>
-                                <select class="form-control" id="status" name="status" required>
-                                    <option value="1" <?php echo ($status == 1) ? 'selected': ''; ?>>Aberto</option>
-                                    <option value="2" <?php echo ($status == 2) ? 'selected': ''; ?>>Executando</option>
-                                    <option value="3" <?php echo ($status == 3) ? 'selected': ''; ?>>Concluida</option>
-                                </select>
-                            </div>                   
+                        <div class="col-sm-6">
+                            <label> Situação </label>
+                            <select class="form-control" id="status" name="status" required>
+                                <option value="1" <?php echo ($status == 1) ? 'selected' : ''; ?>>Aberto</option>
+                                <option value="2" <?php echo ($status == 2) ? 'selected' : ''; ?>>Executando</option>
+                                <option value="3" <?php echo ($status == 3) ? 'selected' : ''; ?>>Concluida</option>
+                            </select>
+                        </div>
                     </div>
                     <div class="card-footer text-muted" id="btn-form">
                         <div class=text-right>
-                            <a title="Voltar" href="ordem.php"><button type="button" class="btn btn-success"><i class="fas fa-arrow-circle-left"></i>&nbsp;</i>Voltar</button></a>
+                            <?php
+                            if ($_SESSION['perfil'] == 1) {
+                                echo '<a title="Voltar" href="ordem.php"><button type="button" class="btn btn-success"><i class="fas fa-arrow-circle-left"></i>&nbsp;</i>Voltar</button></a>';
+                            }else{
+                                echo '<a title="Voltar" href="home.php"><button type="button" class="btn btn-success"><i class="fas fa-arrow-circle-left"></i>&nbsp;</i>Voltar</button></a>';
+                            }
+                            ?>
                             <a title="Adicionar"><button type="submit" name="updatebtn" class="btn btn-primary uptadebtn"><i class="fas fa-edit">&nbsp;</i>Atualizar</button> </a>
                         </div>
                     </div>
-                </form>  
+                </form>
             </div>
         </div>
 
@@ -95,5 +107,3 @@ $terceirizados = listaTerceirizados();
 <?php
 require_once('footer.php');
 ?>
-
-

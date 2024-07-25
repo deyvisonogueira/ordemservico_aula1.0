@@ -1,14 +1,10 @@
-<?php
-
+<?php 
 require_once("conecta_bd.php");
 
-function checaUsuario($email, $senha) {
+function checaUsuario($email, $senha){
     $conexao = conecta_bd();
     $senhaMd5 = md5($senha);
-    $query = "select *
-              from usuario
-              where email='$email' and
-                    senha='$senhaMd5'";
+    $query = "select * from usuario where email = '$email' and senha ='$senhaMd5'";
 
     $resultado = mysqli_query($conexao, $query);
     $dados = mysqli_fetch_array($resultado);
@@ -19,23 +15,19 @@ function checaUsuario($email, $senha) {
 function listaUsuarios(){
     $conexao = conecta_bd();
     $usuarios = array();
-    $query = "select *
-              from usuario
-              order by nome";
+    $query = "select * from usuario order by nome";
 
     $resultado = mysqli_query($conexao, $query);
-    while ($dados = mysqli_fetch_array($resultado)){
+    while($dados =  mysqli_fetch_array($resultado)){
         array_push($usuarios, $dados);
     }
     return $usuarios;
-
 }
 
 function buscaUsuario($email){
     $conexao = conecta_bd();
-    $query = "select *
-              from usuario
-              where email='$email'";
+   
+    $query = "select * from usuario where email = '$email'";
 
     $resultado = mysqli_query($conexao, $query);
     $dados = mysqli_num_rows($resultado);
@@ -43,59 +35,77 @@ function buscaUsuario($email){
     return $dados;
 }
 
-function cadastraUsuario($nome,$senha,$email,$perfil,$status,$data){
-
+function cadastraUsuario ($nome, $senha, $email, $perfil, $status, $data){
     $conexao = conecta_bd();
-    $query = "Insert Into usuario(nome,senha,email,perfil,status,data) values('$nome','$senha','$email','$perfil','$status','$data')";
+    $query = "insert into usuario(nome, senha, email, perfil, status, data) value ('$nome', '$senha', '$email', '$perfil', '$status', '$data')";
 
     $resultado = mysqli_query($conexao, $query);
     $dados = mysqli_affected_rows($conexao);
-
     return $dados;
-
-}
-
-function removeUsuario($codigo){
-     $conexao = conecta_bd();
-    $query = "delete from usuario where cod = '$codigo'";
-
-    $resultado = mysqli_query($conexao, $query);
-    $dados = mysqli_affected_rows($conexao);
-
-    return $dados;
-
 }
 
 function buscaUsuarioeditar($codigo){
     $conexao = conecta_bd();
-    $query = "select *
-              from usuario
-              where cod='$codigo'";
 
-    $resultado = mysqli_query($conexao, $query);
+    $query = "Select * From usuario Where cod = '$codigo'";
+
+    $resultado= mysqli_query($conexao, $query);
     $dados = mysqli_fetch_array($resultado);
 
     return $dados;
-
 }
 
-function editarUsuario($codigo,$status,$data){
+function editarPerfilUsuario($codigo, $nome, $email, $data){
     $conexao = conecta_bd();
-    $query = "select *
-              from usuario
-              where cod='$codigo'";
 
-    $resultado = mysqli_query($conexao,$query);
+    $query = "Select * From usuario Where cod = '$codigo'";
+
+    $resultado = mysqli_query($conexao, $query);
     $dados = mysqli_num_rows($resultado);
     if($dados == 1){
-        $query = "update usuario
-        set status = '$status', data = '$data'
+        $query = "Update usuario Set nome = '$nome', email = '$email', data = '$data'
         where cod = '$codigo'";
-        $resultado = mysqli_query($conexao,$query);
-        $dados = mysqli_affected_rows($conexao);
+        $resultado = mysqli_query($conexao, $query);
+        $dados= mysqli_affected_rows($conexao);
         return $dados;
     }
 
 }
+
+
+function editarSenhaUsuario($codigo,$senha){
+    $conexao = conecta_bd();
+
+    $query = "Select * From usuario Where cod = '$codigo'";
+
+    $resultado = mysqli_query($conexao, $query);
+    $dados = mysqli_num_rows($resultado);
+    if($dados == 1){
+        $query = "Update usuario 
+        Set senha = '$senha'
+        where cod = '$codigo'";
+        $resultado = mysqli_query($conexao, $query);
+        $dados= mysqli_affected_rows($conexao);
+        return $dados;
+    }
+}
+
+
+function editarUsuario($codigo, $status, $data){
+    $conexao = conecta_bd();
+
+    $query = "Select * From usuario Where cod = '$codigo'";
+
+    $resultado = mysqli_query($conexao, $query);
+    $dados = mysqli_num_rows($resultado);
+    if($dados == 1){
+        $query = "Update usuario Set status = '$status', data = '$data'
+        where cod = '$codigo'";
+        $resultado = mysqli_query($conexao, $query);
+        $dados= mysqli_affected_rows($conexao);
+        return $dados;
+    }
+}
+
 
 ?>

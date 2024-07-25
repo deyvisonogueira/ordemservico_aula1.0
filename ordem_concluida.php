@@ -17,11 +17,15 @@ require_once('sidebar.php');
 
                 <div class="row">
                     <div class="col-md-8">
-                        <h6 class="m-0 font-weight-bold text-primary" id="title">GERENCIAR ORDEM DE SERVIÇO</h6>
+                        <h6 class="m-0 font-weight-bold text-primary" id="title">GERENCIAR ORDEM DE SERVIÇO CONCLUÍDA</h6>
                     </div>
                     <div class="col-md-4 card_button_title">
-                        <a title="Adicionar nova ordem" href="cad_ordem.php"><button type="button" class="btn btn-primary btn-sm card_button_title" data-toggle="modal" id=" "> <i class="fas fa-fw fa-clipboard-list">&nbsp;</i> Adicionar Ordem</button></a>
-
+                        <?php
+                        if ($_SESSION['perfil'] == 1) {
+                            echo  '<a title="Adicionar nova ordem" href="cad_ordem.php"><button type="button" class="btn btn-primary btn-sm card_button_title" 
+                       data-toggle="modal" id=" "> <i class="fas fa-fw fa-clipboard-list">&nbsp;</i> Adicionar Ordem</button></a>';
+                        }
+                        ?>
                     </div>
                 </div>
 
@@ -71,7 +75,9 @@ require_once('sidebar.php');
                         <tbody>
                             <?php
                             require_once("bd/bd_ordem.php");
-                            $ordem = listaOrdem();
+                            $cod_usuario = $_SESSION['cod_usu'];
+                            $perfil = $_SESSION['perfil'];
+                            $ordem = listaOrdemStatus(3, $cod_usuario, $perfil);
                             foreach ($ordem as $dados) :
                             ?>
                                 <tr>
@@ -82,14 +88,17 @@ require_once('sidebar.php');
                                     <td class="text-center"><?= date('d/m/Y', strtotime($dados[4])) ?></td>
                                     <td class="text-center"><?= ($dados[5] == 1) ? '<span class="badge badge-danger">Aberta</span>' : (($dados[5] == 2) ? '<span class="badge badge-warning">Executando</span>' : '<span class="badge badge-info">Concluida</span>') ?></td>
                                     <td class="text-center">
-
                                         <?php if ($dados[5] == 1) : ?>
                                             <a title="Atualizar" href="editar_ordem.php?cod=<?= $dados[0]; ?>" class="btn btn-sm btn-success"><i class="fas fa-edit">&nbsp;</i>Atualizar</a>
                                         <?php endif ?>
                                     </td>
                                     <td class="text-center">
                                         <?php if (($dados[5] == 1) or ($dados[5] == 3)) : ?>
-                                            <a title="Excluir" href="javascript(void)" data-toggle="modal" data-target="#excluir-<?= $dados[0]; ?>" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt">&nbsp;</i>Excluir</a>
+                                            <?php
+                                            $perfil = $_SESSION['perfil'];
+                                            if ($_SESSION['perfil'] == 1) {
+                                                echo '<a title="Excluir" href="javascript(void)" data-toggle="modal" data-target="#excluir-<?= $dados[0]; ?>" class="btn btn-sm btn-danger"><i class="fas fa-trash-alt">&nbsp;</i>Excluir</a>';
+                                            } ?>
                                         <?php endif ?>
                                     </td>
                                 </tr>
@@ -104,7 +113,7 @@ require_once('sidebar.php');
                                             <div class="modal-body">Deseja realmente excluir esta informação?</div>
                                             <div class="modal-footer">
                                                 <a href="remove_ordem.php?cod=<?= $dados[0]; ?>"><button class="btn btn-primary btn-user" type="button">Confirmar</button></a>
-                                                <a href="ordem.php"><button class="btn btn-danger btn-user" type="button">Cancelar</button></a>
+                                                <a href="ordem_concluida.php"><button class="btn btn-danger btn-user" type="button">Cancelar</button></a>
 
                                             </div>
                                         </div>

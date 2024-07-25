@@ -14,7 +14,7 @@ $nome_terceirizado = $dados[1];
 $nome_servico = $dados[2];
 $valor_servico = $dados[3];
 $data_servico = $dados[4];
-$status = $dados[5];
+//$status = $dados[5];
 ?>
 
 <!-- Main Content -->
